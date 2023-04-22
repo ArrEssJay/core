@@ -583,6 +583,21 @@ TEMP_KELVIN: Final = "K"
 """Deprecated: please use UnitOfTemperature.KELVIN"""
 
 
+# Absolute Humidity units
+class UnitOfAbsoluteHumidity(StrEnum):
+    """Absolute Humidity Units"""
+
+    GRAMS_PER_CUBIC_METRE = "g/m³"
+    OUNCES_PER_CUBIC_YARD = "oz/yd³"
+    
+    
+# Relative Humidity units    
+class UnitOfRelativeHumidity(StrEnum):
+    """Relative Humidity Units"""
+
+    PERCENTAGE = "%"
+
+
 # Time units
 class UnitOfTime(StrEnum):
     """Time units."""
