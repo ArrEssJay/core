@@ -112,6 +112,7 @@ class MoldIndicator(SensorEntity):
         self._outdoor_temp = None
         self._indoor_hum = None
         self._crit_temp = None
+        self._unit_of_measurement = PERCENTAGE
 
     async def async_added_to_hass(self) -> None:
         """Register callbacks."""
@@ -351,13 +352,13 @@ class MoldIndicator(SensorEntity):
 
         # check bounds and format
         if crit_humidity > 100:
-            self._state = "100"
+            self._state = 100
         elif crit_humidity < 0:
-            self._state = "0"
+            self._state = 0
         else:
-            self._state = f"{int(crit_humidity):d}"
+            self._state = crit_humidity
 
-        _LOGGER.debug("Mold indicator humidity: %s", self._state)
+        _LOGGER.debug(f'Mold indicator humidity: {self._state:.2f}%')
 
     @property
     def name(self):
@@ -384,8 +385,8 @@ class MoldIndicator(SensorEntity):
         """Return the state attributes."""
         if self._is_metric:
             return {
-                ATTR_DEWPOINT: round(self._dewpoint, 2),
-                ATTR_CRITICAL_TEMP: round(self._crit_temp, 2),
+                ATTR_DEWPOINT: self._dewpoint,
+                ATTR_CRITICAL_TEMP: self._crit_temp
             }
 
         dewpoint = (
@@ -405,6 +406,6 @@ class MoldIndicator(SensorEntity):
         )
 
         return {
-            ATTR_DEWPOINT: round(dewpoint, 2),
-            ATTR_CRITICAL_TEMP: round(crit_temp, 2),
+            ATTR_DEWPOINT: dewpoint,
+            ATTR_CRITICAL_TEMP: crit_temp
         }
